@@ -1,0 +1,488 @@
+app:
+  description: ''
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: workflow
+  name: Fizmat Bolt M3 AI
+  use_icon_as_answer_icon: false
+kind: app
+version: 0.1.5
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        image_file_size_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        sourceType: start
+        targetType: http-request
+      id: 1731667915655-source-1731732418611-target
+      selected: false
+      source: '1731667915655'
+      sourceHandle: source
+      target: '1731732418611'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: http-request
+        targetType: code
+      id: 1731732418611-source-1731732891210-target
+      selected: false
+      source: '1731732418611'
+      sourceHandle: source
+      target: '1731732891210'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: code
+        targetType: if-else
+      id: 1731732891210-source-1731734107464-target
+      source: '1731732891210'
+      sourceHandle: source
+      target: '1731734107464'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: if-else
+        targetType: knowledge-retrieval
+      id: 1731734107464-0e8a3f2f-f311-48e9-86e9-11e6d7f8a495-1731669903986-target
+      source: '1731734107464'
+      sourceHandle: 0e8a3f2f-f311-48e9-86e9-11e6d7f8a495
+      target: '1731669903986'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: knowledge-retrieval
+        targetType: llm
+      id: 1731669903986-source-1731668014207-target
+      source: '1731669903986'
+      sourceHandle: source
+      target: '1731668014207'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: if-else
+        targetType: template-transform
+      id: 1731734107464-ec271840-0573-4316-a1e4-f207613f7757-1731734296259-target
+      source: '1731734107464'
+      sourceHandle: ec271840-0573-4316-a1e4-f207613f7757
+      target: '1731734296259'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: template-transform
+        targetType: end
+      id: 1731734296259-source-1731734202956-target
+      source: '1731734296259'
+      sourceHandle: source
+      target: '1731734202956'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: llm
+        targetType: template-transform
+      id: 1731668014207-source-1731734876685-target
+      source: '1731668014207'
+      sourceHandle: source
+      target: '1731734876685'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: template-transform
+        targetType: end
+      id: 1731734876685-source-1731669221741-target
+      source: '1731734876685'
+      sourceHandle: source
+      target: '1731669221741'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        desc: ''
+        selected: false
+        title: 开始
+        type: start
+        variables:
+        - label: input
+          max_length: 48
+          options: []
+          required: true
+          type: text-input
+          variable: input
+      height: 90
+      id: '1731667915655'
+      position:
+        x: -226.4710059590218
+        y: 261.1747757308904
+      positionAbsolute:
+        x: -226.4710059590218
+        y: 261.1747757308904
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - '1731669903986'
+          - result
+        desc: ''
+        model:
+          completion_params:
+            max_tokens_to_sample: 8192
+            response_format: text
+            temperature: 0.7
+          mode: chat
+          name: gpt-4o-mini
+          provider: openai
+        prompt_template:
+        - edition_type: basic
+          id: b866a933-d044-4ac1-b15d-1b154ab946d0
+          role: system
+          text: "You are a Bolt.m3 robot. Ensure the output is simple and direct,\
+            \ not too long.\nOutput based on the content provided below (prompt, completion).\n\
+            If there is no 'prompt' or 'completion,' please output based on the input.\n\
+            Never directly output 'prompt' or 'completion'.\noutput based on the input\
+            \ language. \nMUST! output shoud same as input language.\nMUST!  output\
+            \ based on the input provided.\n{{#context#}}"
+        - id: e28b15f9-ec97-41b9-91ef-6068e50b4e77
+          role: user
+          text: input:{{#1731667915655.input#}}
+        selected: false
+        title: LLM
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 98
+      id: '1731668014207'
+      position:
+        x: 628.2267023462492
+        y: 517.8510936568382
+      positionAbsolute:
+        x: 628.2267023462492
+        y: 517.8510936568382
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        outputs:
+        - value_selector:
+          - '1731734876685'
+          - output
+          variable: output
+        selected: false
+        title: 结束
+        type: end
+      height: 90
+      id: '1731669221741'
+      position:
+        x: 1201.4085159442452
+        y: 525.8439325567726
+      positionAbsolute:
+        x: 1201.4085159442452
+        y: 525.8439325567726
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        dataset_ids:
+        - 08009e06-7736-41f6-874d-9146cb65cba8
+        desc: ''
+        multiple_retrieval_config:
+          reranking_enable: true
+          reranking_mode: weighted_score
+          reranking_model:
+            model: ''
+            provider: ''
+          score_threshold: null
+          top_k: 4
+          weights:
+            keyword_setting:
+              keyword_weight: 0.3
+            vector_setting:
+              embedding_model_name: BAAI/bge-base-en-v1.5
+              embedding_provider_name: huggingface_hub
+              vector_weight: 0.7
+        query_variable_selector:
+        - '1731732891210'
+        - translated_text
+        retrieval_mode: multiple
+        selected: false
+        title: 知识检索
+        type: knowledge-retrieval
+      height: 54
+      id: '1731669903986'
+      position:
+        x: 335.56149323126635
+        y: 530.4127334703172
+      positionAbsolute:
+        x: 335.56149323126635
+        y: 530.4127334703172
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        authorization:
+          config: null
+          type: no-auth
+        body:
+          data:
+          - id: key-value-109
+            key: ''
+            type: text
+            value: "{\n    \"input\": \"{{#1731667915655.input#}}\"\n}\n"
+          type: json
+        desc: ''
+        headers: ''
+        method: post
+        params: ''
+        retry_config:
+          max_retries: 3
+          retry_enabled: true
+          retry_interval: 100
+        selected: false
+        timeout:
+          max_connect_timeout: 0
+          max_read_timeout: 0
+          max_write_timeout: 0
+        title: HTTP 请求
+        type: http-request
+        url: https://translator.hkcufhh.workers.dev
+        variables: []
+      height: 135
+      id: '1731732418611'
+      position:
+        x: -231.39755934650407
+        y: 385.34212533478103
+      positionAbsolute:
+        x: -231.39755934650407
+        y: 385.34212533478103
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        code: "def main(body: str) -> dict:\n    try:\n        data = json.loads(body)\n\
+          \        translated_text = data['translated']['translated_text']\n     \
+          \   return {'result': 1, 'translated_text': translated_text}\n    except\
+          \ (json.JSONDecodeError, KeyError):\n        return {'result': 0, 'translated_text':\
+          \ ''}\n\n"
+        code_language: python3
+        desc: ''
+        outputs:
+          result:
+            children: null
+            type: number
+          translated_text:
+            children: null
+            type: string
+        selected: false
+        title: 代码执行
+        type: code
+        variables:
+        - value_selector:
+          - '1731732418611'
+          - body
+          variable: body
+      height: 54
+      id: '1731732891210'
+      position:
+        x: -231.39755934650407
+        y: 535.4233863717824
+      positionAbsolute:
+        x: -231.39755934650407
+        y: 535.4233863717824
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        cases:
+        - case_id: 0e8a3f2f-f311-48e9-86e9-11e6d7f8a495
+          conditions:
+          - comparison_operator: '='
+            id: 9a69162f-b93e-4fd8-8d64-705880974fb4
+            value: '1'
+            varType: number
+            variable_selector:
+            - '1731732891210'
+            - result
+          logical_operator: and
+        - case_id: ec271840-0573-4316-a1e4-f207613f7757
+          conditions:
+          - comparison_operator: '='
+            id: bfa89de5-508b-4190-9c79-87ba0f0bf16e
+            value: '0'
+            varType: number
+            variable_selector:
+            - '1731732891210'
+            - result
+          logical_operator: and
+        desc: ''
+        selected: false
+        title: 条件分支
+        type: if-else
+      height: 174
+      id: '1731734107464'
+      position:
+        x: 55.99032226444663
+        y: 525.8439325567726
+      positionAbsolute:
+        x: 55.99032226444663
+        y: 525.8439325567726
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        outputs:
+        - value_selector:
+          - '1731734296259'
+          - output
+          variable: output
+        selected: false
+        title: 结束 2
+        type: end
+      height: 90
+      id: '1731734202956'
+      position:
+        x: 607.9370478624385
+        y: 651.5414388555159
+      positionAbsolute:
+        x: 607.9370478624385
+        y: 651.5414388555159
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        selected: false
+        template: '{"result" :"{{ result }}"}'
+        title: 模板转换
+        type: template-transform
+        variables:
+        - value_selector:
+          - '1731732891210'
+          - result
+          variable: result
+      height: 54
+      id: '1731734296259'
+      position:
+        x: 325.6796370920413
+        y: 637.3473674718338
+      positionAbsolute:
+        x: 325.6796370920413
+        y: 637.3473674718338
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        selected: false
+        template: '{"result" :"{{ result }}","output":"{{ text }}"}'
+        title: 模板转换 2
+        type: template-transform
+        variables:
+        - value_selector:
+          - '1731668014207'
+          - text
+          variable: text
+        - value_selector:
+          - '1731732891210'
+          - result
+          variable: result
+      height: 54
+      id: '1731734876685'
+      position:
+        x: 903.788887832384
+        y: 535.4233863717824
+      positionAbsolute:
+        x: 903.788887832384
+        y: 535.4233863717824
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    viewport:
+      x: -512.4039926588442
+      y: -54.22834674907165
+      zoom: 0.6380524097325808
